@@ -78,20 +78,23 @@ public class UserController extends HttpServlet {
 		}
 
 		else if ("modif".equals(action)) {
-
+			UserDao dao = new UserDao();
+			HttpSession session = request.getSession();// 요청한 홈페이지에 세션값 얻기
+		
+			int no = ((UserVo)session.getAttribute("authUser")).getNo(); // authUser 세션 가져오기
 			String name = request.getParameter("name");
 			String password = request.getParameter("password");
 			String gender = request.getParameter("gender");
 
-			UserDao dao = new UserDao();
-			HttpSession session = request.getSession();// 요청한 홈페이지에 세션값 얻기
-			UserVo vo1 = (UserVo) session.getAttribute("authUser"); // authUser 세션 가져오기
-			UserVo vo = new UserVo(vo1.getNo(), password, name, gender);
-
-			System.out.println(dao.getUser(vo1.getNo()));
-
+			UserVo vo = new UserVo(no, password, name, gender);
 			dao.Update(vo);
 
+			//세션값 업데이트(방법1)
+			//session.setAttribute("authUser", name);
+			
+			//세션값 업데이트(방법2) 이름값만 업데이트하기.
+			UserVo sVo = (UserVo)session.getAttribute("authUser");
+			sVo.setName(name);
 			WebUtil.redirect(request, response, "http://localhost:8088/Mysite2/main");
 		}
 	}

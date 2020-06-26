@@ -1,65 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.UserVo"%>
 <%
 	String result = request.getParameter("result");
-UserVo authUser =(UserVo)session.getAttribute("authUser");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/Mysite2/assets/css/mysite.css" rel="stylesheet" type="text/css">
-<link href="/Mysite2/assets/css/main.css" rel="stylesheet" type="text/css">
+<link href="/Mysite2/assets/css/mysite.css" rel="stylesheet"
+	type="text/css">
+<link href="/Mysite2/assets/css/user.css" rel="stylesheet"
+	type="text/css">
 
 </head>
 
 <body>
 	<div id="wrap">
 
-		<div id="header">
-			<h1><a href="http://localhost:8088/Mysite2/main">MySite</a></h1>
-			
-			<%if(authUser == null) { %>
-			<ul>
-				<li><a href="http://localhost:8088/Mysite2/user?action=loginForm">로그인</a></li>
-				<li><a href="http://localhost:8088/Mysite2/user?action=joinForm">회원가입</a></li>
-			</ul>
-			
-			<%}else{ %>
-			<!--  로그인 성공했을때(세션값이 있으면) 
-			 -->
-			<ul>
-				<li><%=authUser.getName() %> 님 안녕하세요^^</li>
-				<li><a href="http://localhost:8088/Mysite2/user?action=logout">로그아웃</a></li>
-				<li><a href="http://localhost:8088/Mysite2/user?action=modifyFoem">회원정보수정</a></li>
-			</ul>
-			 <%} %>
-		</div>
+		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 		<!-- //header -->
 
-		<div id="nav">
-			<ul>
-				<li><a href="">방명록</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">입사지원서</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
+		<jsp:include page="/WEB-INF/views/include/nav.jsp"></jsp:include>
 		<!-- //nav -->
-
-		<div id="aside">
-			<h2>회원</h2>
-			<ul>
-				<li>회원정보</li>
-				<li><a
-					href="http://localhost:8088/Mysite2/user?action=loginForm">로그인</a></li>
-				<li><a
-					href="http://localhost:8088/Mysite2/user?action=joinForm">회원가입</a></li>
-			</ul>
-		</div>
+		
+		<jsp:include page="/WEB-INF/views/include/asideUser.jsp"></jsp:include>
 		<!-- //aside -->
 
 		<div id="content">
@@ -79,7 +44,7 @@ UserVo authUser =(UserVo)session.getAttribute("authUser");
 
 			<div id="user">
 				<div id="loginForm">
-					<form action="/Mysite2/user" method="get">
+					<form action="/Mysite2/user" method="post">
 						<input type="hidden" name="action" value="login">
 						<!-- 아이디 -->
 						<div class="form-group">
@@ -94,9 +59,13 @@ UserVo authUser =(UserVo)session.getAttribute("authUser");
 								type="text" id="input-pass" name="password" value=""
 								placeholder="비밀번호를 입력하세요">
 						</div>
-						<%if("fail".equals(result)) { %>
+						<%
+							if ("fail".equals(result)) {
+						%>
 						<p>로그인에 실패했습니다.다시 로그인해 주세요.</p>
-						<%} %>
+						<%
+							}
+						%>
 						<!-- 버튼영역 -->
 						<div class="button-area">
 							<button type="submit" id="btn-submit">로그인</button>
@@ -111,7 +80,7 @@ UserVo authUser =(UserVo)session.getAttribute("authUser");
 		<!-- //content  -->
 		<div class="clear"></div>
 
-		<div id="footer">Copyright ⓒ 2020 황일영. All right reserved</div>
+		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 		<!-- //footer -->
 
 	</div>
