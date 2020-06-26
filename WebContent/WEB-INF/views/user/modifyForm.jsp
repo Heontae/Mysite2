@@ -3,7 +3,7 @@
 <%@ page import="com.javaex.vo.UserVo"%>
 
 <%
-	UserVo authUser = (UserVo) session.getAttribute("authUser");
+	UserVo userVo = (UserVo) request.getAttribute("userVo");
 %>
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="/Mysite2/assets/css/mysite.css" rel="stylesheet" type="text/css">
-<link href="/Mysite2/assets/css/main.css" rel="stylesheet" type="text/css">
+<link href="/Mysite2/assets/css/user.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -21,7 +21,7 @@
 		<div id="header">
 			<h1><a href="http://localhost:8088/Mysite2/main">MySite</a></h1>
 			
-			<%if(authUser == null) { %>
+			<%if(userVo == null) { %>
 			<ul>
 				<li><a href="http://localhost:8088/Mysite2/user?action=loginForm">로그인</a></li>
 				<li><a href="http://localhost:8088/Mysite2/user?action=joinForm">회원가입</a></li>
@@ -31,7 +31,7 @@
 			<!--  로그인 성공했을때(세션값이 있으면) 
 			 -->
 			<ul>
-				<li><%=authUser.getName() %> 님 안녕하세요^^</li>
+				<li><%=userVo.getName() %> 님 안녕하세요^^</li>
 				<li><a href="http://localhost:8088/Mysite2/user?action=logout">로그아웃</a></li>
 				<li><a href="http://localhost:8088/Mysite2/user?action=modifyFoem">회원정보수정</a></li>
 			</ul>
@@ -79,37 +79,42 @@
 				<div id="modifyForm">
 					<form action="/Mysite2/user" method="get">
 
-						<input type="text" name="action" value="modif"> 
-						<input type="text" name="no" value="<%=authUser.getNo()%>"> 
-					
+						<input type="hidden" name="action" value="modif"> 
+				
 						<!-- 아이디 -->
 						<div class="form-group">
 							<label class="form-text" for="input-uid">아이디</label> <span
-								class="text-large bold" ><%=authUser.getId()%></span>
+								class="text-large bold" ><%=userVo.getId() %></span>
 						</div>
 
 						<!-- 비밀번호 -->
 						<div class="form-group">
 							<label class="form-text" for="input-pass">패스워드</label> <input
-								type="text" id="input-pass" name="password" value=""
+								type="password" id="input-pass" name="password" value="<%=userVo.getPassword() %>"
 								placeholder="비밀번호를 입력하세요">
 						</div>
 
-						<!-- 이메일 -->
+						<!-- 이름 -->
 						<div class="form-group">
 							<label class="form-text" for="input-name">이름</label> <input
-								type="text" id="input-name" name="name" value=""
+								type="text" id="input-name" name="name" value="<%=userVo.getName() %>"
 								placeholder="이름을 입력하세요">
 						</div>
 
-						<!-- //나이 -->
+						<!-- 성별 -->
 						<div class="form-group">
-							<span class="form-text">성별</span> <label for="rdo-male">남</label>
+							<span class="form-text">성별</span> 
+							<%if("male".equals(userVo.getGender())) { %>
+							<label for="rdo-male">남</label>
+							<input type="radio" id="rdo-male" name="gender" value="male" checked="checked">
+							<label for="rdo-female">여</label> 
+							<input type="radio" id="rdo-female" name="gender" value="fmale">
+							<%}else{ %>
+							<label for="rdo-male">남</label>
 							<input type="radio" id="rdo-male" name="gender" value="male">
-
-							<label for="rdo-female">여</label> <input type="radio"
-								id="rdo-female" name="gender" value="female">
-
+							<label for="rdo-female">여</label>
+							<input type="radio"id="rdo-female" name="gender" value="female" checked="checked">
+							<%} %>
 						</div>
 
 						<!-- 버튼영역 -->

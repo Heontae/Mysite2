@@ -49,9 +49,9 @@ public class UserController extends HttpServlet {
 			UserVo authrVo = dao.getUser(id, password);
 
 			if (authrVo == null) {// 세션에 값이 없으면
-				WebUtil.redirect(request, response, "/Mysite2/user?action=loginForm&result=fail");//resulfail은 
-				
-			} else {//세션에 값이 있으면
+				WebUtil.redirect(request, response, "/Mysite2/user?action=loginForm&result=fail");// resulfail은
+
+			} else {// 세션에 값이 있으면
 				// 로그인성공
 				// 세션영역에 값을 주기
 				HttpSession session = request.getSession();// 요청한 홈페이지에 세션값 얻기
@@ -59,32 +59,38 @@ public class UserController extends HttpServlet {
 
 				WebUtil.redirect(request, response, "http://localhost:8088/Mysite2/main");
 			}
-		}
-		else if("logout".equals(action)) { 
+		} else if ("logout".equals(action)) {
 			HttpSession session = request.getSession();
-			session.removeAttribute("authUser");//세션 "authUser"값 지우기
-			session.invalidate();//세션값지우기2 세트로사용
-			
+			session.removeAttribute("authUser");// 세션 "authUser"값 지우기
+			session.invalidate();// 세션값지우기2 세트로사용
+
 			WebUtil.redirect(request, response, "http://localhost:8088/Mysite2/main");
-		}
-		else if("modifyFoem".equals(action)) {
+		} else if ("modifyFoem".equals(action)) {
+			UserDao dao = new UserDao();
+			HttpSession session = request.getSession();// 요청한 홈페이지에 세션값 얻기
+			
+			UserVo vo1 = (UserVo) session.getAttribute("authUser"); // authUser 세션 가져오기
+			
+			UserVo vo = dao.getUser(vo1.getNo());//모든셀렉트를 vo에 저장
+			
+			request.setAttribute("userVo", vo);//모든셀렉트 가지고있는 어트리뷰트
 			WebUtil.forword(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 		}
-		
-		else if("modif".equals(action)) {
-			
+
+		else if ("modif".equals(action)) {
+
 			String name = request.getParameter("name");
 			String password = request.getParameter("password");
 			String gender = request.getParameter("gender");
-			int no = Integer.parseInt(request.getParameter("no"));
-			
+
 			UserDao dao = new UserDao();
-			UserVo vo = new UserVo(no,password,name,gender);
-			
-			dao.Update(vo);
-			
 			HttpSession session = request.getSession();// 요청한 홈페이지에 세션값 얻기
-			session.setAttribute("authUser", vo);// 어트리뷰트
+			UserVo vo1 = (UserVo) session.getAttribute("authUser"); // authUser 세션 가져오기
+			UserVo vo = new UserVo(vo1.getNo(), password, name, gender);
+
+			System.out.println(dao.getUser(vo1.getNo()));
+
+			dao.Update(vo);
 
 			WebUtil.redirect(request, response, "http://localhost:8088/Mysite2/main");
 		}
