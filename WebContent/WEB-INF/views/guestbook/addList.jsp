@@ -1,11 +1,8 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.guestbookVo"%>
-<%@ page import="com.javaex.dao.guestbookDao"%>
-<%@ page import="java.util.List"%>
-<%
-	List<guestbookVo> pList = (List<guestbookVo>) request.getAttribute("guestList");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +18,13 @@
 <body>
 	<div id="wrap">
 
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
 
-		<jsp:include page="/WEB-INF/views/include/nav.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/nav.jsp"></c:import>
 		<!-- //nav -->
 
-		<jsp:include page="/WEB-INF/views/include/asideGuest.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/asideGuest.jsp"></c:import>
 		<!-- //aside -->
 
 		<div id="content">
@@ -46,7 +43,7 @@
 			<!-- //content-head -->
 
 			<div id="guestbook">
-				<form action="/Mysite2/gb" method="get">
+				<form action="/Mysite2/gb" method="post">
 					<table id="guestAdd">
 						<colgroup>
 							<col style="width: 70px;">
@@ -75,40 +72,36 @@
 
 				</form>
 
-				<%
-					for (guestbookVo vo : pList) {
-				%>
-				<table class="guestRead">
-					<colgroup>
-						<col style="width: 10%;">
-						<col style="width: 40%;">
-						<col style="width: 40%;">
-						<col style="width: 10%;">
-					</colgroup>
-					<tr>
-						<td><%=vo.getNo()%></td>
-						<td><%=vo.getName()%></td>
-						<td><%=vo.getReg_date()%></td>
-						<td><a
-							a href="/Mysite2/gb?action=deleteForm&no=<%=vo.getNo()%>">[삭제]</a></td>
-					</tr>
-					<tr>
-						<td colspan=4 class="text-left">방명록 글입니다. 방명록 글입니다.</td>
-					</tr>
-				</table>
-				<%
-					}
-				%>
+				<c:forEach items="${guestList}" var="guestvo">
+					<table class="guestRead">
+						<colgroup>
+							<col style="width: 10%;">
+							<col style="width: 40%;">
+							<col style="width: 40%;">
+							<col style="width: 10%;">
+						</colgroup>
+						<tr>
+							<td>${ guestvo.no}</td>
+							<td>${ guestvo.name}</td>
+							<td>${ guestvo.reg_date}</td>
+							<td><a
+								href="/Mysite2/gb?action=deleteForm&no=${ guestvo.no}">[삭제]</a></td>
+						</tr>
+						<tr>
+							<td colspan=4 class="text-left">방명록 글입니다.<br>${guestvo.content }</td>
+						</tr>
+					</table>
+				</c:forEach>
 				<!-- //guestRead -->
 			</div>
 			<!-- //guestbook -->
 		</div>
 		<!-- //content  -->
-		
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 	</div>
-		<!-- //wrap -->
+	<!-- //wrap -->
 </body>
 
 </html>

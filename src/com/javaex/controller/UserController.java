@@ -50,12 +50,11 @@ public class UserController extends HttpServlet {
 
 			if (authrVo == null) {// 세션에 값이 없으면
 				WebUtil.redirect(request, response, "/Mysite2/user?action=loginForm&result=fail");// resulfail은
-
 			} else {// 세션에 값이 있으면
 				// 로그인성공
 				// 세션영역에 값을 주기
 				HttpSession session = request.getSession();// 요청한 홈페이지에 세션값 얻기
-				session.setAttribute("authUser", authrVo);// 어트리뷰티 넘버하고네임값
+				session.setAttribute("authUser", authrVo);// 세션 넘버하고네임값
 
 				WebUtil.redirect(request, response, "http://localhost:8088/Mysite2/main");
 			}

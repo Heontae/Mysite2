@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%
-	int no = Integer.parseInt(request.getParameter("no"));
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,13 +15,13 @@
 <body>
 	<div id="wrap">
 
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
 
-		<jsp:include page="/WEB-INF/views/include/nav.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/nav.jsp"></c:import>
 		<!-- //nav -->
 
-		<jsp:include page="/WEB-INF/views/include/asideGuest.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/asideGuest.jsp"></c:import>
 		<!-- //aside -->
 
 		<div id="content">
@@ -56,7 +55,7 @@
 							<td><a href="/Mysite2/main">[메인으로 돌아가기]</a></td>
 						</tr>
 					</table>
-					<input type='hidden' name="no" value=<%=no%>>
+					<input type='hidden' name="no" value=${param.no }>
 					<input type='hidden' name="action" value="delete">
 				</form>
 				
@@ -66,7 +65,7 @@
 		<!-- //content  -->
 		<div class="clear"></div>
 		
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>
