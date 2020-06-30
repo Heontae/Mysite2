@@ -179,7 +179,6 @@ public class BoardDao {
 		return count;
 	}
 	// ------------삭제하기------------
-
 	public void BoardDelete(int no) {
 		getConnection();
 
@@ -259,4 +258,43 @@ public class BoardDao {
 		close();
 		return count;
 	}
+	// ------------검색하기------------
+	public List<BoardVo> BoardSelect(String vo) {
+		
+		getConnection();
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			List<BoardVo> BoardList = new ArrayList<BoardVo>();
+			String query = ""; // 쿼리문 문자열만들기, ? 주의
+			query += " SELECT no , title , content , hit , reg_date , user_no FROM board WHERE title LIKE ?; ";
+			
+			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+			
+			String test = "%" + vo + "%";
+
+			pstmt.setString(1, test);
+
+			pstmt.executeUpdate(); // 쿼리문 실행
+
+			// 4.결과처리
+			while (rs.next()) {
+
+				int no = rs.getInt("no");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				int hit = rs.getInt("hit");
+				String reg_date = rs.getString("reg_date");
+				int user_no = rs.getInt("user_no");
+				String name = rs.getString("name");
+				BoardVo boardVo = new BoardVo(no, title, content, hit, reg_date, user_no, name);
+				BoardList.add(boardVo);
+				return BoardList;
+			}
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+		return null;
+	}
+
 }

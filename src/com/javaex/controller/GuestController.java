@@ -78,8 +78,8 @@ public class GuestController extends HttpServlet {
 					out.flush();
 				}
 			}
-
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

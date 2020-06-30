@@ -100,7 +100,17 @@ public class BorderController extends HttpServlet {
 			//리다이렉트
 			WebUtil.redirect(request, response, "/Mysite2/bd?action=list");
 		}
-		
+		// 보기 화면
+		else if ("select".equals(action)) {
+			String keyword = request.getParameter("keyword");
+			BoardDao dao = new BoardDao();
+			List<BoardVo> bList = dao.BoardSelect(keyword);
+			// 리스트 응답해주기
+			request.setAttribute("BoardList", bList);
+			// 포워드
+			WebUtil.forword(request, response, "/WEB-INF/views/board/list.jsp");
+		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
