@@ -62,46 +62,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr class="last">
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
+							<c:forEach items="${requestScope.BoardList}" var="bList">
+								<tr>
+									<td>${bList.no }</td>
+									<td class="text-left"><a
+										href="/Mysite2/bd?action=read&no=${bList.no }">${bList.content }</a></td>
+									<td>${bList.name}</td>
+									<td>${bList.hit }</td>
+									<td>${bList.reg_date }</td>
+									<td>
+										<c:if test="${authUser.no eq bList.user_no }">
+											<a href="/Mysite2/bd?action=delete&no=${bList.no }">[삭제]</a>
+										</c:if>
+									</td>	
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 
@@ -124,8 +99,14 @@
 
 						<div class="clear"></div>
 					</div>
-					<a id="btn_write" href="">글쓰기</a>
-
+					<c:choose>
+						<c:when test="${empty authUser}">
+							
+						</c:when>
+						<c:otherwise>
+							<a id="btn_write" href="/Mysite2/bd?action=writeForm&no=${authUser.no }">글쓰기</a>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<!-- //list -->
 			</div>

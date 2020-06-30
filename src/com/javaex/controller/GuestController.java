@@ -10,11 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.jasper.tagplugins.jstl.core.Param;
-
-import com.javaex.dao.guestbookDao;
+import com.javaex.dao.GuestbookDao;
 import com.javaex.util.WebUtil;
-import com.javaex.vo.guestbookVo;
+import com.javaex.vo.GuestbookVo;
 
 @WebServlet("/gb")
 public class GuestController extends HttpServlet {
@@ -26,8 +24,8 @@ public class GuestController extends HttpServlet {
 
 		// 메인화면(리스트)
 		if ("addList".equals(action)) {
-			guestbookDao dao = new guestbookDao();
-			List<guestbookVo> gList = dao.getPersonList();
+			GuestbookDao dao = new GuestbookDao();
+			List<GuestbookVo> gList = dao.getPersonList();
 
 			// 리스트 응답해주기
 			request.setAttribute("guestList", gList);
@@ -42,8 +40,8 @@ public class GuestController extends HttpServlet {
 			String pw = request.getParameter("pw");
 			String content = request.getParameter("content");
 
-			guestbookDao dao = new guestbookDao();
-			guestbookVo vo = new guestbookVo(name, pw, content);
+			GuestbookDao dao = new GuestbookDao();
+			GuestbookVo vo = new GuestbookVo(name, pw, content);
 
 			dao.personInsert(vo);
 
@@ -59,17 +57,16 @@ public class GuestController extends HttpServlet {
 			int no = Integer.parseInt(request.getParameter("no"));
 			String pw = request.getParameter("pw");
 
-			guestbookDao dao = new guestbookDao();
-			List<guestbookVo> pList = dao.getPersonList();
+			GuestbookDao dao = new GuestbookDao();
+			List<GuestbookVo> pList = dao.getPersonList();
 
-			
 			for (int i = 0; i < pList.size(); i++) {
 				if (no == pList.get(i).getNo() && pw.equals(pList.get(i).getPw())) {
 					dao.personDelete(no, pw);
 					WebUtil.redirect(request, response, "/Mysite2/gb?action=addList");
 				} else if (no == pList.get(i).getNo() && !pw.equals(pList.get(i).getPw())) {
-					
-					//서블릿 안에 스크립트 사용(팝업창)
+
+					// 서블릿 안에 스크립트 사용(팝업창)
 					response.setContentType("text/html; charset=utf-8");
 					PrintWriter out = response.getWriter();
 

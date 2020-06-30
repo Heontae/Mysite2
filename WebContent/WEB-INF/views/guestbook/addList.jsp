@@ -43,7 +43,7 @@
 			<!-- //content-head -->
 
 			<div id="guestbook">
-				<form action="/Mysite2/gb" method="post">
+				<form action="/Mysite2/gb" method="get">
 					<table id="guestAdd">
 						<colgroup>
 							<col style="width: 70px;">

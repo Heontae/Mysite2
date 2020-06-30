@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javaex.vo.guestbookVo;
+import com.javaex.vo.GuestbookVo;
 
-public class guestbookDao {
+public class GuestbookDao {
 
 	// 필드
 	// 0. import java.sql.*;
@@ -58,7 +58,7 @@ public class guestbookDao {
 	}
 
 	// 사람 추가
-	public void personInsert(guestbookVo guestVo) {
+	public void personInsert(GuestbookVo guestVo) {
 		getConnection();
 
 		try {
@@ -85,13 +85,12 @@ public class guestbookDao {
 		}
 		close();
 	}
-	
-	//사람 출력하기
-	public List<guestbookVo> getPersonList() {
-		List<guestbookVo> personList = new ArrayList<guestbookVo>();
+
+	// 사람 출력하기
+	public List<GuestbookVo> getPersonList() {
+		List<GuestbookVo> personList = new ArrayList<GuestbookVo>();
 
 		getConnection();
-
 		try {
 
 			// 3. SQL문 준비 / 바인딩 / 실행 --> 완성된 sql문을 가져와서 작성할것
@@ -107,7 +106,6 @@ public class guestbookDao {
 			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 
 			rs = pstmt.executeQuery();
-
 			// 4.결과처리
 			while (rs.next()) {
 				int no = rs.getInt("no");
@@ -116,7 +114,8 @@ public class guestbookDao {
 				String content = rs.getString("content");
 				String reg_date = rs.getString("reg_date");
 				
-				guestbookVo guestVo = new guestbookVo(no,name, pw, content, reg_date);
+				GuestbookVo guestVo = new GuestbookVo(no, name, pw, content, reg_date);
+				
 				personList.add(guestVo);
 			}
 
@@ -125,36 +124,34 @@ public class guestbookDao {
 		}
 
 		close();
-
 		return personList;
 
 	}
-	
+
 	// 사람 삭제
-		public void personDelete(int no,String pw) {
-			getConnection();
+	public void personDelete(int no, String pw) {
+		getConnection();
 
-			try {
-				// 3. SQL문 준비 / 바인딩 / 실행
-				String query = ""; // 쿼리문 문자열만들기, ? 주의
-				query += " delete from guestbook ";
-				query += " where no = ? ";
-				query += " and	 password = ? ";
-				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = ""; // 쿼리문 문자열만들기, ? 주의
+			query += " delete from guestbook ";
+			query += " where no = ? ";
+			query += " and	 password = ? ";
+			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 
-				pstmt.setInt(1, no);
-				pstmt.setString(2, pw);
-				
-				pstmt.executeUpdate(); // 쿼리문 실행
+			pstmt.setInt(1, no);
+			pstmt.setString(2, pw);
 
-				// 4.결과처리
-				
-			} catch (SQLException e) {
-				System.out.println("error:" + e);
-			}
-			
-			close();
+			pstmt.executeUpdate(); // 쿼리문 실행
+
+			// 4.결과처리
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
 		}
 
+		close();
+	}
 
 }

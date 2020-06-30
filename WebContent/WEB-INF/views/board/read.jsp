@@ -24,7 +24,7 @@
 		<c:import url="/WEB-INF/views/include/nav.jsp"></c:import>
 		<!-- //nav -->
 
-		<c:import url="/WEB-INF/views/include/aside.jsp"></c:import>
+		<c:import url="/WEB-INF/views/include/asideBoard.jsp"></c:import>
 		<!-- //aside -->
 
 		<div id="content">
@@ -44,38 +44,41 @@
 
 			<div id="board">
 				<div id="read">
-					<form action="#" method="get">
+					<form action="/Mysite2/db" method="post">
 						<!-- 작성자 -->
 						<div class="form-group">
-							<span class="form-text">작성자</span> <span class="form-value">정우성</span>
+							<span class="form-text">작성자</span> <span class="form-value">${read.name }</span>
 						</div>
 
 						<!-- 조회수 -->
 						<div class="form-group">
-							<span class="form-text">조회수</span> <span class="form-value">123</span>
+							<span class="form-text">조회수</span> <span class="form-value">${read.hit }</span>
 						</div>
 
 						<!-- 작성일 -->
 						<div class="form-group">
-							<span class="form-text">작성일</span> <span class="form-value">2020-03-02</span>
+							<span class="form-text">작성일</span> <span class="form-value">${read.reg_date }</span>
 						</div>
 
 						<!-- 제목 -->
 						<div class="form-group">
-							<span class="form-text">제 목</span> <span class="form-value">여기에는
-								글제목이 출력됩니다.</span>
+							<span class="form-text">제 목</span> <span class="form-value">${read.title }</span>
 						</div>
 
 						<!-- 내용 -->
 						<div id="txt-content">
-							<span class="form-value"> 여기에는 본문내용이 출력됩니다.<br> 여기에는
-								본문내용이 출력됩니다.<br> 여기에는 본문내용이 출력됩니다.<br> 여기에는 본문내용이
-								출력됩니다.<br> 여기에는 본문내용이 출력됩니다.<br> 여기에는 본문내용이 출력됩니다.<br>
-								여기에는 본문내용이 출력됩니다.<br> 여기에는 본문내용이 출력됩니다.<br>
-							</span>
+							<span class="form-value"> ${read.content } </span>
 						</div>
+						<c:choose>
+							<c:when test="${authUser.no eq read.user_no }">
+								<a id="btn_modify"
+									href="/Mysite2/bd?action=modifyForm&no=${read.no }">수정</a>
+							</c:when>
+							<c:otherwise>
 
-						<a id="btn_modify" href="">수정</a> <a id="btn_modify" href="">목록</a>
+							</c:otherwise>
+						</c:choose>
+						<a id="btn_modify" href="/Mysite2/bd?action=list">목록</a>
 
 					</form>
 					<!-- //form -->

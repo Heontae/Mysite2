@@ -1,16 +1,16 @@
 package com.javaex.vo;
 
-public class guestbookVo {
+public class GuestbookVo {
 	//필드
 	private int no;
 	private String name,pw,content,reg_date;
 	
 	//생성자
-	public guestbookVo() {
+	public GuestbookVo() {
 		
 	}
 	
-	public guestbookVo(int no, String name, String pw, String content, String reg_date) {
+	public GuestbookVo(int no, String name, String pw, String content, String reg_date) {
 		this.no = no;
 		this.name = name;
 		this.pw = pw;
@@ -18,14 +18,14 @@ public class guestbookVo {
 		this.reg_date = reg_date;
 	}
 
-	public guestbookVo(String name, String pw, String content, String reg_date) {
+	public GuestbookVo(String name, String pw, String content, String reg_date) {
 		this.name = name;
 		this.pw = pw;
 		this.content = content;
 		this.reg_date = reg_date;
 	}
 
-	public guestbookVo(String name, String pw, String content) {
+	public GuestbookVo(String name, String pw, String content) {
 		super();
 		this.name = name;
 		this.pw = pw;
