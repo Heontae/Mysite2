@@ -260,25 +260,31 @@ public class BoardDao {
 	}
 	// ------------검색하기------------
 	public List<BoardVo> BoardSelect(String vo) {
-		
+		List<BoardVo> BoardList = new ArrayList<BoardVo>();
 		getConnection();
 		try {
 			// 3. SQL문 준비 / 바인딩 / 실행
-			List<BoardVo> BoardList = new ArrayList<BoardVo>();
 			String query = ""; // 쿼리문 문자열만들기, ? 주의
-			query += " SELECT no , title , content , hit , reg_date , user_no FROM board WHERE title LIKE ?; ";
-			
+			query += " SELECT  b.no no, ";
+			query += "         b.title title, ";
+			query += "         b.content content, ";
+			query += "         b.hit hit, ";
+			query += "         b.reg_date reg_date , ";
+			query += "         b.user_no user_no, ";
+			query += "         s.name name " ;
+			query += " FROM board b, users s " ;
+			query += " where title LIKE ? " ;
+			query += " and s.no = b.user_no " ;
+			query += " order by no desc" ;
 			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 			
 			String test = "%" + vo + "%";
-
+			
 			pstmt.setString(1, test);
 
-			pstmt.executeUpdate(); // 쿼리문 실행
-
+			rs = pstmt.executeQuery();
 			// 4.결과처리
 			while (rs.next()) {
-
 				int no = rs.getInt("no");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
@@ -288,13 +294,13 @@ public class BoardDao {
 				String name = rs.getString("name");
 				BoardVo boardVo = new BoardVo(no, title, content, hit, reg_date, user_no, name);
 				BoardList.add(boardVo);
-				return BoardList;
+				
 			}
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
 		close();
-		return null;
+		return BoardList;
 	}
 
 }

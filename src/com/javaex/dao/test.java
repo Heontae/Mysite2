@@ -10,10 +10,12 @@ public class test {
 		// TODO Auto-generated method stub
 		BoardDao guest = new BoardDao();
 		
-		List<BoardVo> list = guest.BoardList();
+		String keyword = "3" ;
+		List<BoardVo> list = guest.BoardSelect(keyword);
 		
-		System.out.println(list.toString());
-		
+		for(BoardVo vo : list) {
+			System.out.println(vo.getTitle());
+		}
 		
 		
 	}

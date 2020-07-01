@@ -47,7 +47,7 @@
 					<form action="/Mysite2/bd" method="get">
 						<div class="form-group text-right">
 						<input type="hidden" name="action" value="select">
-							<input type="text" name="keyword" value = "">
+							<input type="text" name="keyword" value ="" >
 							<button type="submit" id=btn_search>검색</button>
 						</div>
 					</form>
@@ -67,7 +67,7 @@
 								<tr>
 									<td>${bList.no }</td>
 									<td class="text-left"><a
-										href="/Mysite2/bd?action=read&no=${bList.no }">${bList.content }</a></td>
+										href="/Mysite2/bd?action=read&no=${bList.no }">${bList.title }</a></td>
 									<td>${bList.name}</td>
 									<td>${bList.hit }</td>
 									<td>${bList.reg_date }</td>
