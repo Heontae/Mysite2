@@ -11,7 +11,7 @@ public class test {
 		BoardDao guest = new BoardDao();
 		
 		String keyword = "3" ;
-		List<BoardVo> list = guest.BoardSelect(keyword);
+		List<BoardVo> list = guest.BoardList(keyword);
 		
 		for(BoardVo vo : list) {
 			System.out.println(vo.getTitle());

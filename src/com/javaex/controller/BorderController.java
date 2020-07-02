@@ -26,7 +26,7 @@ public class BorderController extends HttpServlet {
 		// 메인화면(리스트)
 		if ("list".equals(action)) {
 			BoardDao dao = new BoardDao();
-			List<BoardVo> bList = dao.BoardList();
+			List<BoardVo> bList = dao.BoardList("");
 			// 리스트 응답해주기
 			request.setAttribute("BoardList", bList);
 
@@ -45,7 +45,7 @@ public class BorderController extends HttpServlet {
 			// 포워드
 			WebUtil.forword(request, response, "/WEB-INF/views/board/read.jsp");
 		}
-
+		// 등록하기 폼
 		else if ("writeForm".equals(action)) {
 			int num = Integer.parseInt(request.getParameter("no"));
 
@@ -70,6 +70,7 @@ public class BorderController extends HttpServlet {
 			WebUtil.redirect(request, response, "/Mysite2/bd?action=list");
 			
 		}
+		//삭제하기
 		else if ("delete".equals(action)) {
 			int no = Integer.parseInt(request.getParameter("no"));
 			BoardDao dao = new BoardDao();
@@ -77,7 +78,9 @@ public class BorderController extends HttpServlet {
 			
 			//리다이렉트
 			WebUtil.redirect(request, response, "/Mysite2/bd?action=list");
-		} else if("modifyForm".equals(action)) {
+		}
+		//수정하기 폼
+		else if("modifyForm".equals(action)) {
 			int num = Integer.parseInt(request.getParameter("no"));
 
 			BoardDao dao = new BoardDao();
@@ -100,11 +103,11 @@ public class BorderController extends HttpServlet {
 			//리다이렉트
 			WebUtil.redirect(request, response, "/Mysite2/bd?action=list");
 		}
-		// 보기 화면
+		// 검색 화면
 		else if ("select".equals(action)) {
 			String keyword = request.getParameter("keyword");
 			BoardDao dao = new BoardDao();
-			List<BoardVo> bList = dao.BoardSelect(keyword);
+			List<BoardVo> bList = dao.BoardList(keyword);
 			// 리스트 응답해주기
 			request.setAttribute("BoardList", bList);
 			// 포워드
